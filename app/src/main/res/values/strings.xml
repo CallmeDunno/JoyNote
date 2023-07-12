@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">JoyNote</string>
+    <string name="home">Home</string>
+    <string name="starter">Starter</string>
+    <string name="editor">Editor</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="empty">Empty</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="date_time">DateTime</string>
+    <string name="create_new_note">Create Your Note</string>
+    <string name="recent_notes">Recent Notes</string>
+    <string name="notification">Notification</string>
+    <string name="message_delete">Are you sure you will delete this item?</string>
+    <string name="create_new_note_2">Add a note about anything (your thoughts on climate change, or your history essay) and share it with the world.</string>
+
+</resources>
