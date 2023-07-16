@@ -15,9 +15,11 @@ data class Notes(
     @ColumnInfo(name = "content")
     val content: String,
     @ColumnInfo(name = "date")
-    val date: String
+    val date: String,
+    @ColumnInfo(name = "important")
+    val important: Boolean
 ) : Serializable {
-    companion object NoteDiffUtil : DiffUtil.ItemCallback<Notes>(){
+    companion object NoteDiffUtil : DiffUtil.ItemCallback<Notes>() {
         override fun areItemsTheSame(oldItem: Notes, newItem: Notes): Boolean {
             return oldItem.id == newItem.id
         }

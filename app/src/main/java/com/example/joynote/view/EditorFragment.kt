@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -46,6 +47,8 @@ class EditorFragment : Fragment() {
                 binding.apply {
                     edtTitleEditor.setText(action.title)
                     edtContentEditor.setText(action.content)
+                    tvDateTimeEditor.text = action.date
+                    btnImportantNoteEditor.isChecked = action.important
                 }
             }
         }
@@ -57,25 +60,29 @@ class EditorFragment : Fragment() {
                 requireView().findNavController().popBackStack()
             }
             btnDoneEditor.setOnClickListener {
-                viewModel.insertNote(getNoteFromLayout())
-                requireView().findNavController().popBackStack()
+
+                val content = binding.edtContentEditor.text.toString()
+                val title = binding.edtTitleEditor.text.toString()
+                val important = binding.btnImportantNoteEditor.isChecked
+
+                if (TextUtils.isEmpty(content)) {
+                    Toast.makeText(requireContext(), "The content is blank", Toast.LENGTH_LONG).show()
+                } else {
+                    if (TextUtils.isEmpty(title)){
+                        viewModel.insertNote(Notes(id, "No title", content, getCurrentTime(), important))
+                    } else {
+                        viewModel.insertNote(Notes(id, title, content, getCurrentTime(), important))
+                    }
+                    requireView().findNavController().popBackStack()
+                }
             }
         }
-    }
-
-    private fun getNoteFromLayout(): Notes {
-        val content: String = binding.edtContentEditor.text.toString()
-        val title: String = binding.edtTitleEditor.text.toString()
-        if (!TextUtils.isEmpty(content) && TextUtils.isEmpty(title)) {
-            return Notes(id, "Title", content, getCurrentTime())
-        }
-        return Notes(id, title, content, getCurrentTime())
     }
 
     @SuppressLint("SimpleDateFormat")
     private fun getCurrentTime(): String {
         val now = Calendar.getInstance().time
-        val formatter = SimpleDateFormat("dd-MM-yyyy hh:mm:ss")
+        val formatter = SimpleDateFormat("dd-MM-yyyy hh:mm a")
         return formatter.format(now)
     }
 

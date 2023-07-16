@@ -1,6 +1,8 @@
 package com.example.joynote.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -22,14 +24,13 @@ class NoteAdapter(diffUtil: DiffUtil.ItemCallback<Notes>) :
         ViewHolder(itemBinding.root) {
 
         private var itemBinding: ListNoteBinding? = null
-        private lateinit var note: Notes
 
         init {
             this.itemBinding = itemBinding
         }
 
+        @SuppressLint("SetTextI18n")
         fun bindData(note: Notes) {
-//            this.note = note
             itemBinding!!.apply {
                 itemView.setOnClickListener {
                     iHomeItemClick.onClickItem(note)
@@ -39,8 +40,11 @@ class NoteAdapter(diffUtil: DiffUtil.ItemCallback<Notes>) :
                     return@setOnLongClickListener true
                 }
                 tvTitle.text = note.title
-                tvContent.text = note.content
+                if (note.content.length > 200) tvContent.text = "${note.content.subSequence(0, 200)}..."
+                else tvContent.text = note.content
                 tvDateTime.text = note.date
+                if (note.important) imgImportantNoteHome.visibility = View.VISIBLE
+                else imgImportantNoteHome.visibility = View.GONE
             }
         }
 

@@ -12,6 +12,7 @@
     <string name="create_new_note">Create Your Note</string>
     <string name="recent_notes">Recent Notes</string>
     <string name="notification">Notification</string>
+    <string name="important_note">Important note</string>
     <string name="message_delete">Are you sure you will delete this item?</string>
     <string name="create_new_note_2">Add a note about anything (your thoughts on climate change, or your history essay) and share it with the world.</string>
 

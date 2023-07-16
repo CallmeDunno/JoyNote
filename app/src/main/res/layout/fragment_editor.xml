@@ -10,78 +10,105 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="10"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/gray_main" >
+        android:background="@color/gray_main"
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <ImageView
             android:id="@+id/btn_back_editor"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_back_24"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_back_24" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="8"
-            android:textSize="20sp"
-            android:fontFamily="@font/nunito_extrabold"
-            android:textColor="#403B36"
             android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:fontFamily="@font/nunito_extrabold"
+            android:gravity="center"
             android:text="@string/editor"
-            android:gravity="center"/>
+            android:textColor="#403B36"
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/btn_done_editor"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_done_24"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_done_24" />
 
     </LinearLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/title"
-        android:padding="6dp"
-        app:hintTextColor="@color/white"
-        android:textColorHint="@color/white">
+        android:orientation="horizontal"
+        android:weightSum="10">
 
-        <EditText
-            android:id="@+id/edt_title_editor"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/edit_click"
-            android:fontFamily="@font/nunito_extrabold"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:padding="10dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:ignore="SpeakableTextPresentCheck" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:hint="@string/title"
+            android:padding="6dp"
+            android:textColorHint="@color/white"
+            app:hintTextColor="@color/white">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/edt_title_editor"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/edit_click"
+                android:fontFamily="@font/nunito_extrabold"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/btn_important_note_editor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_important_img"
+            android:button="@color/transparent"
+            android:tooltipText="@string/important_note"
+            tools:targetApi="o" />
+
+    </LinearLayout>
 
     <TextView
-        android:layout_margin="10dp"
         android:id="@+id/tv_date_time_editor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:textSize="12sp"
-        android:textColor="@color/white"
+        android:layout_margin="10dp"
         android:fontFamily="@font/nunito_extrabold"
-        android:text="@string/date_time" />
+        android:padding="2dp"
+        android:text="@string/date_time"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="@string/content"
         android:padding="6dp"
-        app:hintTextColor="@color/white"
-        android:textColorHint="@color/white">
+        android:textColorHint="@color/white"
+        app:hintTextColor="@color/white">
 
         <EditText
             android:id="@+id/edt_content_editor"
@@ -96,7 +123,7 @@
             android:padding="10dp"
             android:textColor="@color/white"
             android:textSize="14sp"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

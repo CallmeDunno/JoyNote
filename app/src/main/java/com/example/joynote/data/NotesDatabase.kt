@@ -1,9 +1,11 @@
 package com.example.joynote.data
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
-@Database(entities = [Notes::class], version = 1)
+@Database(entities = [Notes::class], version = 1, exportSchema = true)
 abstract class NotesDatabase : RoomDatabase() {
     abstract fun noteDao(): NotesDao
 

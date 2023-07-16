@@ -23,6 +23,9 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: NotesViewModel
     private val adapter = NoteAdapter(Notes.NoteDiffUtil)
 
+    private var listOldNotes: List<Notes> = ArrayList()
+    private var listImportantNotes: ArrayList<Notes> = ArrayList()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,15 +40,34 @@ class HomeFragment : Fragment() {
         initAction()
     }
 
+    private fun initView() {
+        binding.rcvHome.adapter = adapter
+        initViewModel()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(this)[NotesViewModel::class.java]
+        viewModel.getAllNotes().observe(requireActivity()) {
+            if (it != null) {
+                setNotificationEmpty(it.size)
+                adapter.submitList(it)
+
+                setDataForListImportantNote(it)
+            }
+        }
+    }
+
     private fun initAction() {
         binding.btnAddHome.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToEditorFragment(null)
             requireView().findNavController().navigate(action)
         }
-    }
 
-    private fun initView() {
-        binding.rcvHome.adapter = adapter
+        binding.btnImportantNoteHome.setOnCheckedChangeListener { _, b ->
+            if (b) adapter.submitList(listImportantNotes)
+            else adapter.submitList(listOldNotes)
+        }
+
         adapter.setOnClickItem(object : IHomeItemClick {
             override fun onClickItem(note: Notes) {
                 val action = HomeFragmentDirections.actionHomeFragmentToEditorFragment(note)
@@ -53,13 +75,24 @@ class HomeFragment : Fragment() {
             }
 
             override fun onLongClickItem(id: Int) {
-                showDialog(id)
+                showDeleteDialog(id)
             }
         })
-        initViewModel()
     }
 
-    private fun showDialog(id: Int) {
+    private fun setDataForListImportantNote(it: List<Notes>) {
+        listOldNotes = it
+        val listTerm = ArrayList<Notes>()
+        for (i in it) {
+            if (i.important) {
+                listTerm.add(i)
+            }
+        }
+        listImportantNotes.clear()
+        listImportantNotes = listTerm
+    }
+
+    private fun showDeleteDialog(id: Int) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_delete)
@@ -69,7 +102,7 @@ class HomeFragment : Fragment() {
         window.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
-        );
+        )
         window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         dialog.findViewById<Button>(R.id.btn_yes_dialog).setOnClickListener {
@@ -82,17 +115,19 @@ class HomeFragment : Fragment() {
         dialog.show()
     }
 
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(this)[NotesViewModel::class.java]
-        viewModel.getAllNotes().observe(requireActivity()) {
-            getNotificationEmpty(it.size)
-            adapter.submitList(it)
-        }
-    }
-
-    private fun getNotificationEmpty(size: Int) {
+    private fun setNotificationEmpty(size: Int) {
         if (size == 0) binding.tvWListEmpty.visibility = View.VISIBLE
         else binding.tvWListEmpty.visibility = View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.btnImportantNoteHome.isChecked = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
